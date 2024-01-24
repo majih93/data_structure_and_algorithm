@@ -94,6 +94,37 @@ class BinarySearchTree {
       }
     }
   }
+
+  // 전위순회 메서드
+  // preorder(전위순회) - root -> left -> right
+  preOrder(root) {
+    if (root) {
+      console.log(root.value);
+      this.preOrder(root.left);
+      this.preOrder(root.right);
+    }
+  }
+
+  // inorder(중위순회) - left -> root -> right
+  // 1. visit left subtree
+  // 2. read the value
+  // 3. visit the right subtree
+  inOrder(root) {
+    if (root) {
+      this.inOrder(root.left); // visit left subtree
+      console.log(root.value);
+      this.inOrder(root.right);
+    }
+  }
+
+  // postorder(후위순회) - left -> right -> root
+  postOrder(root) {
+    if (root) {
+      this.postOrder(root.left);
+      this.postOrder(root.right);
+      console.log(root.value);
+    }
+  }
 }
 
 const bst = new BinarySearchTree();
@@ -104,11 +135,17 @@ const bst = new BinarySearchTree();
 bst.insert(10);
 bst.insert(5);
 bst.insert(15);
+bst.insert(7);
+bst.insert(3);
 
 // 추가한 값을 확인하려면 검색기능이 존재해야 함
 
-console.log(bst.search(bst.root, 10)); // true
-console.log(bst.search(bst.root, 2)); // false
+// console.log(bst.search(bst.root, 10)); // true
+// console.log(bst.search(bst.root, 2)); // false
 // console.log(bst.search(bst.root, 15));
 // console.log(bst.search(bst.root, 7));
 // node binary_search_tree.js
+
+// bst.preOrder(bst.root); // 10 - 5 - 3 - 7 - 15
+// bst.inOrder(bst.root); // 3 - 5 - 7 - 10 - 15
+// bst.postOrder(bst.root); // 3 - 7 - 5 - 15 - 10
