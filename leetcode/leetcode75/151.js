@@ -26,3 +26,16 @@ var reverseWords = function (s) {
 };
 
 console.log(reverseWords("blue is the sky"));
+
+// 다른 사람 솔루션.
+// 내 솔루션이 최상인가에 대해서 의구심이 많아서 조금 봤음
+var reverseWords2 = function (s) {
+  return s
+    .split(" ")
+    .filter((word) => word !== "")
+    .reverse()
+    .join(" ");
+};
+
+// 1. filter를 사용할 생각을 전혀 못했다는 점.
+// 2. filter를 이용해서 필요없는 값들은 다 지워버리고, 공백 하나씩만 삽입해서 join() 함수를 실행하면 됐네.
