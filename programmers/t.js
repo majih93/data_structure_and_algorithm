@@ -197,6 +197,7 @@
 
 //   return answer;
 // }
+
 // 시간이 더 오래 걸린다. 배열 탐색보다 객체 탐색이 더 시간이 오래 걸리는 방법인 듯 함.
 // 아니면 Map 으로 처리해볼까?
 // 배열에서 지우는 것 자체는 유지하되, Map을 이용해서 처리해보자.
@@ -242,3 +243,53 @@
 
 // console.log(solution5([2, 3, 3, 5]));
 
+// 시간 효율이 많이 개선되었음.
+// 그래도 테스트케이스 22는 정말 오래 걸리고 있고... 실패했다... 시간초과야 또.
+
+//
+
+// 흠 다시 또 더 개선해보자.ㅣ..
+
+// 정말 오래 걸리는 케이스들이 있는 것 보니 효율 개선보다 아이디어의 개선이 필요한지 모르겠다.
+
+// function solution6(numbers) {
+//   const answer = Array(numbers.length).fill(-1);
+
+//   // 아직 처리되지 않은 값들을 담을 객체
+//   let notDecided = new Map();
+
+//   let min = Number.MAX_SAFE_INTEGER;
+
+//   for (let i = 0; i < numbers.length; i++) {
+//     // 더 작거나 같은 값인 경우
+//     if (numbers[i] <= min) {
+//       notDecided.set(i, null); // map에 값 저장, 값은 필요없으므로 null로 처리
+//       min = numbers[i];
+//     } else {
+//       // 더 큰 값인 경우
+//       for (const key of notDecided.keys()) {
+//         if (numbers[key] < numbers[i]) {
+//           // 아직 처리되지 않은 값이 이번 값보다 더 큰 작은 값이면 처리
+//           answer[key] = numbers[i];
+//           // Map에서 해당 값 제거
+//           notDecided.delete(key);
+//         }
+//       }
+
+//       // 결정되지 않은 키값에 이번 인덱스값 추가
+//       notDecided.set(i, null);
+//       // min 값이 더 큰 값인 경우 어떻게 처리되어야 하는지?
+//       // 해당 값으로 갱신되어어야 한다.
+//       // 이게 안돼서 처리가 조금 더 많이 된건가?
+//       min = numbers[i];
+//     }
+//   }
+
+//   return answer;
+// }
+
+// 키값만 순회하는 형태로 개선하면?
+// 시간 초과.
+
+// 뭐지?
+// 음 뭔가 아이디어의 전환이 필요한가 싶은데 잘 모르겠다
