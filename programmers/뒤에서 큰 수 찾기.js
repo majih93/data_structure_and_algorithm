@@ -293,3 +293,34 @@
 
 // 뭐지?
 // 음 뭔가 아이디어의 전환이 필요한가 싶은데 잘 모르겠다
+
+// 핵심 아이디어는 stack 자료구조를 활용하는 거였나보다.
+
+// 다른 사람의 답변
+function solution(numbers) {
+  const answer = Array(numbers.length).fill(-1);
+
+  const stack = [0];
+
+  for (let i = 0; i < numbers.length; i++) {
+    // 스택에 요소가 남아있고, 스택에 가장 마지막으로 추가된 요소(인덱스값)이 이번 숫자보다 작으면
+    while (stack.length && numbers[stack[stack.length - 1]] < numbers[i]) {
+      // 스택에서 pop해서 해당 값의 인덱스 값을 이번 숫자로 처리한다.
+      answer[stack.pop()] = numbers[i];
+    }
+    // 그리고 이번 값은 다시 스택에 push
+    stack.push(i);
+  }
+  return answer;
+}
+
+console.log(solution([2, 3, 3, 5]));
+
+// 흠...
+// 아이디어 자체(처리안된 값을 저장하고 조건 충족 시 해당 값들을 처리)는 결이 맞았는데, 스택 자료구조를 통해서 push pop을 반복하는게 효율이 훨씬 좋다는 점을 전혀 생각하지 못했네 ㅠ
+
+// 스택에 처리 안된 값들 밀어 넣고, 뒤에서부터 하나씩 체크하면서 매번 조건 충족 시 다 빼버린다.
+// 모든 numbers의 숫자값에 대해서 스택을 확인해서 뱉는 처리를 함.
+// 매번 확인을 하니까 해당 값보다 작은 값에 대해서는 일단 다 처리가 된다. 그리고 큰 값이 잇었다면 앞단에서 처리가 되었음.
+
+// Stack!!!
