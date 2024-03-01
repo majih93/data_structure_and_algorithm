@@ -90,8 +90,64 @@ function solution(numbers) {
 
 //   return answer;
 // }
+
+// 문제를 풀기 위해서 필요한 요소들부터 생각해보자.
+
+// 가장 간단하게 문제를 풀려면, 매 숫자에 대해서 answer iterate하면서 -1로 처리되어 있는 인덱스에 해당되는 number배열의 숫자를 매 숫자와 비교해서 처리해주면 된다.
+// 여기서 어떻게 비효율을 줄일 수 있을까?
+
+// answer를 매번 전체 길이로 iterate하는 것을 방지하면 된다.
+// 아직 처리되지 않은 값들을 효율적으로 저장할 구조를 만들면 된다.
+// 객체에 값을 저장하고, 제거되어야 하는 키값을 배열에 임시 저장해서 해당 배열 iterate하면서 객체에서 값을 제거한다.
+
+// 값을 저장하는 조건이 뭘까?
+// min 값을 정하고, 해당 min값보다 큰 값이 등장하는 경우, 작거나 같은 값인 경우로 나눠서 처리한다.
+// 더 작거나 같은 값인 경우, - min값을 업데이트하고 객체에 해당 값을 추가한다.
+// 더 큰 값인 경우 - 지금까지 처리되지 않은 값들을 다 처리하고, 해당 값은 처리되지 않은 값들에 추가한다. (min은 해당 값으로 업데이트 한다.)
+// 아하 min으로 처리를 안했구나.
+
+// min값ㅇ르 업데이트 시키는 형식이었어야 하는 것 같다.
+// 왜냐하면 큰 값이 처리지점이기 때문에, min값을 계속 업데이트 해야함
+
+function solution3(numbers) {
+  const answer = Array(numbers.length).fill(-1);
+
+  // 아직 처리되지 않은 값들을 담을 객체
+  let notDecided = {};
+
+  let min = Number.MAX_SAFE_INTEGER;
+
+  for (let i = 0; i < numbers.length; i++) {
+    // 더 작거나 같은 값인 경우
+    if (numbers[i] <= min) {
+      notDecided[i] = true; // 결정되지 않은 값들 배열에 값 저장.
+      min = numbers[i];
+    } else {
+      // 더 큰 값인 경우
+      const keysToDelete = [];
+      // 아직 결정되지 않은 키값들을 순회하면서 결정된 키는 제거하기 위해 저장할 배열에 저장
+      for (const key in notDecided) {
+        const notDecidedIdx = Number(key);
+        // 순회 시 key 값이 string으로 처리되므로 number로 변환시켜줘야함.
+        if (numbers[notDecidedIdx] < numbers[i]) {
+          // 아직 처리되지 않은 값이 이번 값보다 더 큰 작은 값이면 처리
+          answer[notDecidedIdx] = numbers[i];
+          // 제거할 배열에 추가
+          keysToDelete.push(key);
+        }
+      }
+      // 제거할 배열의 요소들 제거
+      for (const keyToDelete of keysToDelete) {
+        delete notDecided[keyToDelete];
+      }
+
+      // 결정되지 않은 키값에 이번 인덱스값 추가
+      notDecided[i] = true;
     }
   }
 
   return answer;
 }
+
+console.log(solution3([2, 3, 3, 5]));
+console.log(solution3([9, 1, 5, 3, 6, 2]));
