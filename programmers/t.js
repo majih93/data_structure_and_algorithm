@@ -109,7 +109,94 @@ function solution(numbers) {
 // min값ㅇ르 업데이트 시키는 형식이었어야 하는 것 같다.
 // 왜냐하면 큰 값이 처리지점이기 때문에, min값을 계속 업데이트 해야함
 
-function solution3(numbers) {
+// function solution3(numbers) {
+//   const answer = Array(numbers.length).fill(-1);
+
+//   // 아직 처리되지 않은 값들을 담을 객체
+//   let notDecided = {};
+
+//   let min = Number.MAX_SAFE_INTEGER;
+
+//   for (let i = 0; i < numbers.length; i++) {
+//     // 더 작거나 같은 값인 경우
+//     if (numbers[i] <= min) {
+//       notDecided[i] = true; // 결정되지 않은 값들 배열에 값 저장.
+//       min = numbers[i];
+//     } else {
+//       // 더 큰 값인 경우
+//       const keysToDelete = [];
+//       // 아직 결정되지 않은 키값들을 순회하면서 결정된 키는 제거하기 위해 저장할 배열에 저장
+//       for (const key in notDecided) {
+//         const notDecidedIdx = Number(key);
+//         // 순회 시 key 값이 string으로 처리되므로 number로 변환시켜줘야함.
+//         if (numbers[notDecidedIdx] < numbers[i]) {
+//           // 아직 처리되지 않은 값이 이번 값보다 더 큰 작은 값이면 처리
+//           answer[notDecidedIdx] = numbers[i];
+//           // 제거할 배열에 추가
+//           keysToDelete.push(key);
+//         }
+//       }
+//       // 제거할 배열의 요소들 제거
+//       for (const keyToDelete of keysToDelete) {
+//         delete notDecided[keyToDelete];
+//       }
+
+//       // 결정되지 않은 키값에 이번 인덱스값 추가
+//       notDecided[i] = true;
+//     }
+//   }
+
+//   return answer;
+// }
+
+// console.log(solution3([2, 3, 3, 5]));
+// console.log(solution3([9, 1, 5, 3, 6, 2]));
+
+// 테스트 케이스 하나 빼고는 다 통과했는데, 하나가 시간초과가 떠버렸다.
+
+// 그리고 꽤 시간이 오래 걸리는 테스트케이스들이 존재한다.
+
+// 시간 줄일 수 있는 아이디어.
+// 굳이 객체에서 값을 지워야 할까?
+// 그냥 해당 키 값으로 answer배열 확인하고 -1이 아닌 경우만 처리하게 하면 제거하는 시간이 필요없어진다. 해당 부분 개선해서 다시 실행해보자.
+// 기대 효과 - 키에서 제거하기 위해서 iterate하는 시간이 줄어든다. ( 근데 키 값 자체는 유지되니까... 키 값 자체를 그냥 false로 바꿀까. 그래도 iteration시간이 소요되어서 차이가 없을까 잘 모르겠다 해보자)
+
+// function solution4(numbers) {
+//   const answer = Array(numbers.length).fill(-1);
+
+//   // 아직 처리되지 않은 값들을 담을 객체
+//   let notDecided = {};
+
+//   let min = Number.MAX_SAFE_INTEGER;
+
+//   for (let i = 0; i < numbers.length; i++) {
+//     // 더 작거나 같은 값인 경우
+//     if (numbers[i] <= min) {
+//       notDecided[i] = false; // 결정되지 않은 값들 배열에 값 저장.
+//       min = numbers[i];
+//     } else {
+//       // 더 큰 값인 경우
+//       for (const key in notDecided) {
+//         // 처리된 경우에는 key에 대한 value를 true로 변경하기 때문에 이를 확인해서 false인 경우에만 처리
+//         if (!notDecided[key]) {
+//           const notDecidedIdx = Number(key);
+//           // 순회 시 key 값이 string으로 처리되므로 number로 변환시켜줘야함.
+//           if (numbers[notDecidedIdx] < numbers[i]) {
+//             // 아직 처리되지 않은 값이 이번 값보다 더 큰 작은 값이면 처리
+//             answer[notDecidedIdx] = numbers[i];
+//             // 값을 false로 변경
+//             notDecided[key] = true;
+//           }
+//         }
+//       }
+
+//       // 결정되지 않은 키값에 이번 인덱스값 추가
+//       notDecided[i] = false;
+//     }
+//   }
+
+//   return answer;
+// }
   const answer = Array(numbers.length).fill(-1);
 
   // 아직 처리되지 않은 값들을 담을 객체
