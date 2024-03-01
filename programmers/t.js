@@ -2,52 +2,34 @@
 function solution(numbers) {
   let answer = Array(numbers.length).fill(-1); // -1로 초기화
 
-  // 뒤에 큰 수를 찾을 수 있는 방법
+//   let tempMax = numbers[0];
+//   let lastIdx = 0;
 
-  // 전체 탐색하면 되겠지만, 그건 답이 아닐 가능성이 높다.
-  // 왜냐하면 시간이 그러면 얼마나 걸리는 걸까?
-  // 최악의 경우 배열의 길이만큼 배열의 개수만큼 탐색해야 해서 결국 n^2 시간이 소요된다.
+//   // 1번째 요소부터 탐색
+//   for (let i = 1; i < numbers.length; i++) {
+//     if (i === 1 && tempMax > numbers[i]) {
+//       tempMax = numbers[i];
+//       lastIdx = 1;
+//     }
 
-  // 그러면 어떻게 시간 효율을 개선할 수 있을까?
+//     if (numbers[i] > numbers[0] && answer[0] === -1) {
+//       answer[0] = tempMax;
+//     }
 
-  // 반복할 때 마다 저장을 해서 처리를 하는 구조가 되어야 할텐데.
+//     if (numbers[i] > tempMax) {
+//       tempMax = numbers[i];
+//       for (let j = lastIdx; j <= i - 1; j++) {
+//         answer[j] = tempMax;
+//       }
+//       lastIdx = i;
+//     }
+//   }
 
-  // 어떻게 특정 값에 대해서 값을 바로 처리 안하고 나중에 이연해서 처리해서 배열 값을 처리할 수 있지?
+//   return answer;
+// }
 
-  // 가장 큰 수를 계속 업데이트 치면서 가면 되지 않나?
-
-  // 지금까지 max고, max를 기준으로 이전을 다 대체해버리면 됨.
-
-  // 그리고 지금까지 한 값을 저장.
-
-  let tempMax = numbers[0];
-  let lastIdx = 0;
-
-  // 1번째 요소부터 탐색
-  for (let i = 1; i < numbers.length; i++) {
-    if (i === 1 && tempMax > numbers[i]) {
-      tempMax = numbers[i];
-      lastIdx = 1;
-    }
-
-    if (numbers[i] > numbers[0] && answer[0] === -1) {
-      answer[0] = tempMax;
-    }
-
-    if (numbers[i] > tempMax) {
-      tempMax = numbers[i];
-      for (let j = lastIdx; j <= i - 1; j++) {
-        answer[j] = tempMax;
-      }
-      lastIdx = i;
-    }
-  }
-
-  return answer;
-}
-
-console.log(solution([2, 3, 3, 5]));
-console.log(solution([9, 1, 5, 3, 6, 2]));
+// console.log(solution([2, 3, 3, 5]));
+// console.log(solution([9, 1, 5, 3, 6, 2]));
 
 // 대부분의 경우에 실패
 // 가닥은 맞게 잡았을 거같은데 디테일을 놓친 부분이 있을 듯 하다.
@@ -72,40 +54,42 @@ console.log(solution([9, 1, 5, 3, 6, 2]));
 // 아니면, 저장되지 않는 케이스만 인덱스를 저장해서 해당 배열에 대해서 매번 탐색하는 걸로 처리하면 어때?
 
 // let notDecided = [0, 10, 14] 에 대해서 looping하면서 해당 값이 더 크면 업데이트 시키는 형태
-function solution2(numbers) {
-  let answer = Array(numbers.length).fill(-1);
+// function solution2(numbers) {
+//   let answer = Array(numbers.length).fill(-1);
 
-  // let notDecided = new Map();
-  // Map 을 통해서 처리할까 했는데, JavaScript Map 을 iterate하면서 값을 제거하는게 safe한 처리인지 모르겠음.
-  // 일단은 Array 및 filter() 메서드를 활용해서 구현하자.
-  // 그래도 filter 메서드가 자연스럽게 생각나는거보니 조금 나아졌네.
+//   // let notDecided = new Map();
+//   // Map 을 통해서 처리할까 했는데, JavaScript Map 을 iterate하면서 값을 제거하는게 safe한 처리인지 모르겠음.
+//   // 일단은 Array 및 filter() 메서드를 활용해서 구현하자.
+//   // 그래도 filter 메서드가 자연스럽게 생각나는거보니 조금 나아졌네.
 
-  // 조금 더 refining 하면 좋겠는데 아이디어 자체를..
-  // 일단 컨셉 자체는 좀 잡은거같음.
-  // [ 1,8, 3, 6, 10, 13, 7, 4, 2, 9, 77, 9, 23, 10]
+//   // 조금 더 refining 하면 좋겠는데 아이디어 자체를..
+//   // 일단 컨셉 자체는 좀 잡은거같음.
+//   // [ 1,8, 3, 6, 10, 13, 7, 4, 2, 9, 77, 9, 23, 10]
 
-  // 위 배열에 대해서 절차적으로 수도코드 작성해보자.
+//   // 위 배열에 대해서 절차적으로 수도코드 작성해보자.
 
-  
-  
+//   // answer를 필요한 지점까지 iterate하지 않고 별도의 배열에 값이 정해지지 않은 인덱스를 저장하는이유는?
+//   // 조금이라도 더 효율적으로 처리하기 위해서
+//   let notDecided = [0];
 
-  // answer를 필요한 지점까지 iterate하지 않고 별도의 배열에 값이 정해지지 않은 인덱스를 저장하는이유는?
-  // 조금이라도 더 효율적으로 처리하기 위해서
-  let notDecided = [0];
+//   let tempMax = 0;
 
-  let tempMax = 0;
+//   for (let i = 1; i < numbers.length; i++) {
+//     // 만약에 해당 값이 더 큰 값이면 지금까지 나온 값들 중에서 안 처리된 값 다 처리한다.
+//     // 그리고 초기화. [3,2,1, 7, 1,2,3,] 7 -> 1로 초기화되도록 처리 필요
+//     if(numbers[i] > tempMax) {
+//       tempMax = numbers[i];
 
-  for (let i = 1; i < numbers.length; i++) {
-    // 만약에 해당 값이 더 큰 값이면 지금까지 나온 값들 중에서 안 처리된 값 다 처리한다. 
-    // 그리고 초기화. [3,2,1, 7, 1,2,3,] 7 -> 1로 초기화되도록 처리 필요
-    if(numbers[i] > tempMax) {
-      tempMax = numbers[i];
+//       for(let j = 0;j < notDecided.length; j++) {
+//         if(tempMax > numbers[notDecided[j]]) {
+//           answer.
+//         }
+//       }
+//     }
+//   }
 
-      for(let j = 0;j < notDecided.length; j++) {
-        if(tempMax > numbers[notDecided[j]]) {
-          answer.
-        }
-      }
+//   return answer;
+// }
     }
   }
 
