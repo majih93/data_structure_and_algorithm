@@ -1,6 +1,6 @@
-// 뒤에 큰 수 찾기
-function solution(numbers) {
-  let answer = Array(numbers.length).fill(-1); // -1로 초기화
+// // 뒤에 큰 수 찾기
+// function solution(numbers) {
+//   let answer = Array(numbers.length).fill(-1); // -1로 초기화
 
 //   let tempMax = numbers[0];
 //   let lastIdx = 0;
@@ -197,44 +197,48 @@ function solution(numbers) {
 
 //   return answer;
 // }
-  const answer = Array(numbers.length).fill(-1);
+// 시간이 더 오래 걸린다. 배열 탐색보다 객체 탐색이 더 시간이 오래 걸리는 방법인 듯 함.
+// 아니면 Map 으로 처리해볼까?
+// 배열에서 지우는 것 자체는 유지하되, Map을 이용해서 처리해보자.
 
-  // 아직 처리되지 않은 값들을 담을 객체
-  let notDecided = {};
+// 그리고 Map을 활용할 때는, iteration 을 하면서 필요한 경우에 값을 지워도 문제가 없다고 한다.
+// Map을 활용해서 값을 저장하고, iterate하면서 필요한 경우 바로 제거하는 형태로 개선해보자.
+// 그리고 Map은 key로 string뿐만 아니라 어떤 값도 된다고 한다. 그래서 Number변환이 필요없는 것도 살짝 장점.
 
-  let min = Number.MAX_SAFE_INTEGER;
+// function solution5(numbers) {
+//   const answer = Array(numbers.length).fill(-1);
 
-  for (let i = 0; i < numbers.length; i++) {
-    // 더 작거나 같은 값인 경우
-    if (numbers[i] <= min) {
-      notDecided[i] = true; // 결정되지 않은 값들 배열에 값 저장.
-      min = numbers[i];
-    } else {
-      // 더 큰 값인 경우
-      const keysToDelete = [];
-      // 아직 결정되지 않은 키값들을 순회하면서 결정된 키는 제거하기 위해 저장할 배열에 저장
-      for (const key in notDecided) {
-        const notDecidedIdx = Number(key);
-        // 순회 시 key 값이 string으로 처리되므로 number로 변환시켜줘야함.
-        if (numbers[notDecidedIdx] < numbers[i]) {
-          // 아직 처리되지 않은 값이 이번 값보다 더 큰 작은 값이면 처리
-          answer[notDecidedIdx] = numbers[i];
-          // 제거할 배열에 추가
-          keysToDelete.push(key);
-        }
-      }
-      // 제거할 배열의 요소들 제거
-      for (const keyToDelete of keysToDelete) {
-        delete notDecided[keyToDelete];
-      }
+//   // 아직 처리되지 않은 값들을 담을 객체
+//   let notDecided = new Map();
 
-      // 결정되지 않은 키값에 이번 인덱스값 추가
-      notDecided[i] = true;
-    }
-  }
+//   let min = Number.MAX_SAFE_INTEGER;
 
-  return answer;
-}
+//   for (let i = 0; i < numbers.length; i++) {
+//     // 더 작거나 같은 값인 경우
+//     if (numbers[i] <= min) {
+//       notDecided.set(i, null); // map에 값 저장, 값은 필요없으므로 null로 처리
+//       min = numbers[i];
+//     } else {
+//       // 더 큰 값인 경우
+//       for (const [key, _] of notDecided) {
+//         // 처리된 경우에는 key에 대한 value를 true로 변경하기 때문에 이를 확인해서 false인 경우에만 처리
 
-console.log(solution3([2, 3, 3, 5]));
-console.log(solution3([9, 1, 5, 3, 6, 2]));
+//         // 순회 시 key 값이 string으로 처리되므로 number로 변환시켜줘야함.
+//         if (numbers[key] < numbers[i]) {
+//           // 아직 처리되지 않은 값이 이번 값보다 더 큰 작은 값이면 처리
+//           answer[key] = numbers[i];
+//           // Map에서 해당 값 제거
+//           notDecided.delete(key);
+//         }
+//       }
+
+//       // 결정되지 않은 키값에 이번 인덱스값 추가
+//       notDecided.set(i, null);
+//     }
+//   }
+
+//   return answer;
+// }
+
+// console.log(solution5([2, 3, 3, 5]));
+
