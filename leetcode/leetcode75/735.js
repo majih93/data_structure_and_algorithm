@@ -43,3 +43,9 @@ var asteroidCollision = function (as) {
 // console.log(asteroidCollision([8, -8]));
 console.log(asteroidCollision([10, 2, -5]));
 console.log(asteroidCollision([-2, -2, 1, -2]));
+
+// 시행착오 원인 분석
+
+// 결국 수도코드 단에서 명확하게 조건을 나눠서 처리하지 않은게 이슈인 듯 하다.
+// 머릿속으로 모호하게 대충 이렇게 하면 풀릴 문제겠지 라고 생각해서 문제를 풀다보니 엣지케이스를 자주 놓치곤한다.
+// case를 잘 분리해서 배타적으로 성립되는 케이스를 알아보고 해당되는 케이스들에 대해서 처리를 하자.
