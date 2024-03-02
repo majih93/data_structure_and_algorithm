@@ -56,4 +56,6 @@ function decodeString(s) {
 // console.log(decodeString("2[abc]3[cd]ef"));
 console.log(decodeString("100[leetcode]"));
 
-//
+// 이 문제를 풀면서 놓쳤던 점.
+// 숫자가 두 자리 이상인 케이스에 대해서 고려하지 않고 한 자리인 경우만 생각해서 pop()을 한번만 처리함
+// while문으로 숫자도 다 처리하는 형태로 구현하니 되었다
