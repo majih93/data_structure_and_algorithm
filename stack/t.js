@@ -27,9 +27,16 @@ function permute(nums) {
 
   recursive(0);
 
-  console.log(stack);
-
   return answer;
 }
 
 permute([1, 2, 3, 4]);
+
+// think about the concept itself.
+// how can I use the concept of backtracking to get all the possible permutations?
+// backtracking means going back to a certain point to get the wanted answer;
+
+// 1 -> 2 -> 3 -> 4
+// 그리고 다시 2로 돌아가서 이번에는 4 - 3 순서대로 처리한다.
+
+// 이게 가장 일반적인 형태의 로직인데 이걸 how to implement in code?
