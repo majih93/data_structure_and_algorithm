@@ -9,29 +9,45 @@
 // 순서가 중요하다.
 // 즉 첫 번째 숫자부터 for문 돌면서 숫자 push/pop하고 마지막 순서의 for loop에서 해당 시점의 stack을 복사해서 결과 배열에 push 하는 형태로풀면 되지 않을까?
 
+// 인프런 강의에서 배운 내용을 반영해서 처리하자.
+// 3개 중 3개를 고르는 형태로 생각하면 된다.
 function permute(nums) {
   const answer = [];
 
   // 상황별 데이터 처리 여부 저장할 배열
-  const data = Array(nums.length).fill(0);
+  const isUsed = Array(nums.length).fill(0);
   const stack = [];
 
-  function recursive(idx) {
-    // 가장 단순한 형태로 우선 구현해보자.
-    if (stack.length === nums.length) return [...stack];
-
-    stack.push(nums[idx]);
-    const nextIdx = idx + 1;
-    recursive(nextIdx);
+  function recursive() {
+    if (stack.length === nums.length) {
+      //종료조건
+      answer.push([...stack]);
+    } else {
+      // 요소에 대해서 저장하면서 처리
+      for (let i = 0; i < nums.length; i++) {
+        // 아직 처리된적이 없는 요소인 경우 처리
+        if (isUsed[i] === 0) {
+          // 사용 처리
+          isUsed[i] = 1;
+          // 이번에 처리되어야 하는 idx에 값 처리
+          stack.push(nums[i]);
+          // 다음 분기 실행
+          recursive();
+          // 실행 종료 후에 사용된 요소에 대해서 사용되지 않은 것으로 롤백
+          isUsed[i] = 0;
+          // 스택에서 해당 요소 제거
+          stack.pop();
+        }
+      }
+    }
   }
 
-  recursive(0);
+  recursive();
 
   return answer;
 }
 
-permute([1, 2, 3, 4]);
-
+console.log(permute([1, 2, 3, 4]));
 // think about the concept itself.
 // how can I use the concept of backtracking to get all the possible permutations?
 // backtracking means going back to a certain point to get the wanted answer;
@@ -87,6 +103,6 @@ function infPermute(N, arr) {
   return answer;
 }
 
-console.log(infPermute(2, [1, 2, 3]));
+// console.log(infPermute(2, [1, 2, 3]));
 
 // 구조적으로 머릿속으로 조금 더 생각해보면서 이해가 되었다.
