@@ -43,3 +43,38 @@ function my_solution(nums, x) {
 console.log(my_solution([1, 3, 6, 5, 2, 7, 9], 9)); // 3
 console.log(my_solution([1, 2, 1, 3, 1, 1, 1, 2], 6)); // 3
 
+// 답 자체는 구해지는 형태로 코드를 짠 듯 하다.
+
+// 인프런 강의를 토대로 놓친 부분이 있는지 보자.
+function solution(arr, x) {
+  let answer = 0;
+  let leftPointer = 0;
+  let sum = 0;
+
+  // for문으로 처리했다.
+  // 그리고 p2의 index가 범위를 넘어갔다는 의미 자체가 sum이 x보다 작은 상태라는 것을 의미 즉 더이상
+  // 조건을 충족하는 부분배열이 안남았다는 의미라는 점
+  for (let rightPointer = 0; rightPointer < arr.length; rightPointer++) {
+    // sum에 rt값 추가
+    sum += arr[rightPointer];
+    // 더한 이후에 조건 충족하는지 확인.
+    if (sum === x) answer++;
+
+    while (sum >= x) {
+      sum -= arr[leftPointer++];
+      // 더하고 뺄때마다 확인해서 값 처리
+      if (sum === x) answer++;
+    }
+  }
+
+  return answer;
+}
+
+// AHA 포인트
+
+// 1. leftPointer는 필요한 경우에만 처리, rightPointer를 계속 증가시키는 형태로 구현한다는 점.
+////  음 그렇지. 어차피 부분배열을 계속 탐색하려면 오른쪽으로 탐색범위를 늘려나가야 하니까 이게 더 직관적인 느낌이다.
+
+// 2. 더하거나 뺐을 때 바로 sum에 값을 더하거나 뺀다.
+//// 아무래도 로직이 더 이해가 잘 되는 형태인 듯 하다. 더하거나 빼고, 값이 충족되는지 확인하고,
+//// 매 분기마다 sum값을 확인해서 필요한 경우에만 rightPointer값을 처리한다.
