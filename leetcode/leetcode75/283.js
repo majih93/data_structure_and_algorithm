@@ -48,3 +48,46 @@ console.log(moveZeroes([4, 2, 4, 0, 0, 3, 0, 5, 1, 0]));
 // 제대로 처리안됨
 // -> p1이 0인 경우, p2탐색 시작 위치를 조정시키는 처리를 빼먹음
 // -> p2 위치를 p1 다음 요소부터 탐색되도록 처리해야된다.
+
+// 다른 사람 풀이 참고
+
+// 흠 무슨 발상인지 이해해보자.
+
+// 기본 개념 -> 0이 아닌 요소의 위치를 가장 빠른 0이 위치한 위치와 교환한다.
+var moveZeroes2 = function (nums) {
+  let left = 0;
+
+  for (let right = 0; right < nums.length; right++) {
+    if (nums[right] !== 0) {
+      [nums[right], nums[left]] = [nums[left], nums[right]];
+      left++;
+    }
+  }
+
+  return nums;
+};
+
+// left는 첫 번째 요소에서 시작,
+
+// right 0에서 시작
+
+// right는 배열 순회
+
+// 이동하면서 0이 아닌 경우 left와 자리교환.
+
+// left를 이동
+
+// left도 1
+//
+
+// [4,2,4,0,0,3]
+
+// 이러면 left는 3이고, right는 6일 때,
+
+// 교환된다.
+
+// left는 그러면 어디
+
+// left는 foremost 0에 위치하게 된다.
+
+// 확실히 시간이 빠르다 왜냐하면 for문 하나만 굴리는 형태로 처리되기 때문에 while을 이중으로 처리할 필요가 없음
