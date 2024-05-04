@@ -61,4 +61,43 @@ function bubbleSort_right_to_left(arr) {
   return sortedArr;
 }
 
-console.log(bubbleSort_right_to_left([12, 2, 1, 8, 6, 9, 10, 11]));
+// console.log(bubbleSort_right_to_left([12, 2, 1, 8, 6, 9, 10, 11]));
+
+// 내가 작성한 버블 정렬은 개선할 여지가 하나 남아있다.
+
+// 만약에 정렬이 완료된 경우, 더이상 비교연산이 필요없는데 위에 작성한 코드상으로는 정해진 수의 비교 처리가 계속 진행됨.
+
+// 한 분기의 비교를 다 완료했는데, 자리바꿈이 전혀 없었다면 이미 배열이 정렬되어 있다고 볼 수 있다. 그러면 해당 시점에 반복문을 종료시키면 됨.
+
+function improved_bubbleSort(arr) {
+  const sortedArr = [...arr];
+
+  for (let i = sortedArr.length - 1; i > 0; i--) {
+    console.log(sortedArr);
+    let curIndex = 0;
+    // 비교를 통한 자리 변화가 일어났는지 여부 판단하는 state 추가
+    let hasChanged = false;
+    while (curIndex < i) {
+      if (sortedArr[curIndex] > sortedArr[curIndex + 1]) {
+        [sortedArr[curIndex], sortedArr[curIndex + 1]] = [
+          sortedArr[curIndex + 1],
+          sortedArr[curIndex],
+        ];
+        hasChanged = true;
+      }
+
+      curIndex++;
+    }
+
+    // 만약에 비교를 통한 변화가 없었다면 비교를 종료
+    if (!hasChanged) {
+      break;
+    }
+  }
+
+  return sortedArr;
+}
+
+console.log(improved_bubbleSort([1, 2, 3, 4, 5]));
+
+// 정렬된 배열인 경우 반복문이 1회만 수행된다.
